@@ -37,6 +37,9 @@ def is_full(board):
     return all(board[r][c] != " " for r in range(3) for c in range(3))
 
 
+GRID_HELP = "Positions:\n1 | 2 | 3\n---------\n4 | 5 | 6\n---------\n7 | 8 | 9"
+
+
 def get_move(name, marker, board):
     """Prompt the named player for a move and return (row, col).
 
@@ -45,8 +48,12 @@ def get_move(name, marker, board):
     points to an empty cell.
     """
     while True:
+        raw = input(f"{name} ({marker}), enter a position (1-9) or ? for help: ").strip()
+        if raw == "?":
+            print(GRID_HELP)
+            continue
         try:
-            move = int(input(f"{name} ({marker}), enter a position (1-9): ")) - 1
+            move = int(raw) - 1
             row, col = divmod(move, 3)
             if move < 0 or move > 8:
                 print("Enter a number between 1 and 9.")
@@ -72,7 +79,7 @@ def play():
     name_o = input("Enter name for Player 2 (O): ").strip() or "Player 2"
     names = {"X": name_x, "O": name_o}
 
-    print("\nPositions:\n1 | 2 | 3\n---------\n4 | 5 | 6\n---------\n7 | 8 | 9\n")
+    print(f"\n{GRID_HELP}\n")
 
     current = "X"
     while True:
