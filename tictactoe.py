@@ -23,10 +23,10 @@ def is_full(board):
     return all(board[r][c] != " " for r in range(3) for c in range(3))
 
 
-def get_move(player, board):
+def get_move(name, marker, board):
     while True:
         try:
-            move = int(input(f"Player {player}, enter a position (1-9): ")) - 1
+            move = int(input(f"{name} ({marker}), enter a position (1-9): ")) - 1
             row, col = divmod(move, 3)
             if move < 0 or move > 8:
                 print("Enter a number between 1 and 9.")
@@ -40,17 +40,22 @@ def get_move(player, board):
 
 def play():
     board = [[" "] * 3 for _ in range(3)]
-    print("Positions:\n1 | 2 | 3\n---------\n4 | 5 | 6\n---------\n7 | 8 | 9\n")
+
+    name_x = input("Enter name for Player 1 (X): ").strip() or "Player 1"
+    name_o = input("Enter name for Player 2 (O): ").strip() or "Player 2"
+    names = {"X": name_x, "O": name_o}
+
+    print("\nPositions:\n1 | 2 | 3\n---------\n4 | 5 | 6\n---------\n7 | 8 | 9\n")
 
     current = "X"
     while True:
         print_board(board)
-        row, col = get_move(current, board)
+        row, col = get_move(names[current], current, board)
         board[row][col] = current
 
         if check_winner(board, current):
             print_board(board)
-            print(f"Player {current} wins!")
+            print(f"{names[current]} wins!")
             break
         if is_full(board):
             print_board(board)
