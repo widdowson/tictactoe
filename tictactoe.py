@@ -1,4 +1,9 @@
 def print_board(board):
+    """Print the current state of the 3x3 board to stdout.
+
+    Cells in each row are separated by ' | ', and rows are separated
+    by a horizontal '---------' divider.
+    """
     for i, row in enumerate(board):
         print(" | ".join(row))
         if i < 2:
@@ -6,6 +11,11 @@ def print_board(board):
 
 
 def check_winner(board, player):
+    """Return True if the given player has three marks in a row.
+
+    Checks all three rows, all three columns, and both diagonals.
+    Returns False if no winning line is found for the player.
+    """
     for row in board:
         if all(c == player for c in row):
             return True
@@ -20,10 +30,20 @@ def check_winner(board, player):
 
 
 def is_full(board):
+    """Return True if every cell on the board is occupied.
+
+    Used to detect a draw when no player has won.
+    """
     return all(board[r][c] != " " for r in range(3) for c in range(3))
 
 
 def get_move(name, marker, board):
+    """Prompt the named player for a move and return (row, col).
+
+    Accepts a position 1-9 numbered left-to-right, top-to-bottom, and
+    keeps prompting until the input is a valid integer in range that
+    points to an empty cell.
+    """
     while True:
         try:
             move = int(input(f"{name} ({marker}), enter a position (1-9): ")) - 1
@@ -39,6 +59,13 @@ def get_move(name, marker, board):
 
 
 def play():
+    """Run one full game of tic-tac-toe between two human players.
+
+    Prompts for each player's name, initializes an empty board, prints
+    a numbered position key for reference, then alternates between
+    players X and O until one wins or the board fills and the game is
+    a draw.
+    """
     board = [[" "] * 3 for _ in range(3)]
 
     name_x = input("Enter name for Player 1 (X): ").strip() or "Player 1"
